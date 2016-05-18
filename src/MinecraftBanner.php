@@ -33,8 +33,8 @@ class MinecraftBanner {
 
     const FONT_FILE = __DIR__  . '/minecraft.ttf';
 
-    const MOTD_SIZE = 16;
-    const PLAYER_SIZE = 12;
+    const MOTD_SIZE = 20;
+    const PLAYER_SIZE = 16;
     const PING_WIDTH = 36;
     const PING_HEIGHT = 29;
 

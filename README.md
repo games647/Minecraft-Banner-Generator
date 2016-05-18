@@ -55,4 +55,4 @@ imagepng($banner);
 ```PHP
 $banner = MinecraftBanner::server("example.minecraft.com", "§aHallo §cWelt");
 ```
-![Minecraft banner](http://i.imgur.com/L6fLg99.png)
+![Minecraft banner](http://i.imgur.com/dN6Wsyx.png)
