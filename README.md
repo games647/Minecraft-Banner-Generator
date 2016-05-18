@@ -53,6 +53,13 @@ imagepng($banner);
 ## Examples
 
 ```PHP
-$banner = MinecraftBanner::server("example.minecraft.com", "§aHallo §cWelt");
+$favicon = imagecreatefrompng("server_favicon.png");
+$image = MinecraftBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -1, $favicon);
 ```
 ![Minecraft banner](http://i.imgur.com/dN6Wsyx.png)
+
+```PHP
+//$favicon = imagecreatefrompng("server_favicon.png");
+//$image = MinecraftBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -1, $favicon);
+```
+![Minecraft banner](http://i.imgur.com/2yZGQck.png)

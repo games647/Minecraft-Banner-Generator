@@ -4,6 +4,12 @@ namespace MinecraftBanner;
 
 class MinecraftBanner {
 
+    const PLAYER_WIDTH = 400;
+    const PLAYER_HEIGHT = 100;
+
+    const PLAYER_PADDING = 10;
+    const HEAD_SIZE = 64;
+
     const COLOR_CHAR = "§";
     const COLORS = [
         '0' => [0, 0, 0], //Black
@@ -33,8 +39,8 @@ class MinecraftBanner {
 
     const FONT_FILE = __DIR__  . '/minecraft.ttf';
 
-    const MOTD_SIZE = 20;
-    const PLAYER_SIZE = 16;
+    const MOTD_TEXT_SIZE = 20;
+    const PLAYERS_TEXT_SIZE = 16;
     const PING_WIDTH = 36;
     const PING_HEIGHT = 29;
 
@@ -55,7 +61,7 @@ class MinecraftBanner {
      * @return resource the rendered banner
      */
     public static function server($address, $motd = "§cOffline Server", $players = -1, $max_players = -1, $favicon = NULL, $ping = 0) {
-        $canvas = imagecreate(self::WIDTH, self::HEIGHT);
+        $canvas = imagecreatetruecolor(self::WIDTH, self::HEIGHT);
 
         if ($favicon == NULL) {
             $favicon = imagecreatefrompng(__DIR__ . '/img/favicon.png');
@@ -98,9 +104,10 @@ class MinecraftBanner {
             }
 
             $color = imagecolorallocate($canvas, $color_rgb[0], $color_rgb[1], $color_rgb[2]);
-            imagettftext($canvas, self::MOTD_SIZE, 0, $nextX, 60, $color, self::FONT_FILE, $text);
+//            var_dump($color);
+            imagettftext($canvas, self::MOTD_TEXT_SIZE, 0, $nextX, 60, $color, self::FONT_FILE, $text);
 
-            $box = imagettfbbox(self::MOTD_SIZE, 0, self::FONT_FILE, $text);
+            $box = imagettfbbox(self::MOTD_TEXT_SIZE, 0, self::FONT_FILE, $text);
             $text_width = abs($box[4] - $box[0]);
             $nextX += $text_width;
         }
@@ -123,25 +130,58 @@ class MinecraftBanner {
         imagecopy($canvas, $image, $ping_posX , $favicon_posY, 0, 0, self::PING_WIDTH, self::PING_HEIGHT);
 
         $white = imagecolorallocate($canvas, 255, 255, 255);
-        $text = "$players / $max_players";
-        $box = imagettfbbox(self::PLAYER_SIZE, 0, self::FONT_FILE, $text);
+        $text = $players . ' / ' . $max_players;
+        $box = imagettfbbox(self::PLAYERS_TEXT_SIZE, 0, self::FONT_FILE, $text);
         $text_width = abs($box[4] - $box[0]);
 
         //center it based on the ping image
-        $posY = $favicon_posY + (self::PING_HEIGHT / 2) + self::PLAYER_SIZE / 2;
+        $posY = $favicon_posY + (self::PING_HEIGHT / 2) + self::PLAYERS_TEXT_SIZE / 2;
         $posX = $ping_posX - $text_width - self::PADDING / 2;
 
-        imagettftext($canvas, self::PLAYER_SIZE, 0, $posX, $posY, $white, self::FONT_FILE, $text);
+        imagettftext($canvas, self::PLAYERS_TEXT_SIZE, 0, $posX, $posY, $white, self::FONT_FILE, $text);
         return $canvas;
     }
 
-//    /**
-//     *
-//     * @param resource $head the rendered skin head
-//     *
-//     * @return resource the rendered head
-//     */
-//    public static function player($head, $playername) {
-//
-//    }
+    /**
+     *
+     * @param string $playername Minecraft player name
+     * @param resource $head the rendered skin head
+     *
+     * @return resource the generated banner
+     */
+    public static function player($playername, $head = NULL) {
+        $canvas = imagecreatetruecolor(self::PLAYER_WIDTH, self::PLAYER_HEIGHT);
+
+        //file the complete background
+        $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
+        for ($yPos = 0; $yPos <= (self::PLAYER_HEIGHT / self::TEXTURE_SIZE); $yPos++) {
+            for ($xPos = 0; $xPos <= (self::PLAYER_WIDTH / self::TEXTURE_SIZE); $xPos++) {
+                $startX = $xPos * self::TEXTURE_SIZE;
+                $startY = $yPos * self::TEXTURE_SIZE;
+                imagecopyresampled($canvas, $background, $startX, $startY, 0, 0
+                        , self::TEXTURE_SIZE, self::TEXTURE_SIZE
+                        , self::TEXTURE_SIZE, self::TEXTURE_SIZE);
+            }
+        }
+
+        if ($head == NULL) {
+            $head = imagecreatefrompng(__DIR__ . "/img/head.png");
+        }
+
+        $head_posX = self::PLAYER_PADDING;
+        $head_posY = self::PLAYER_HEIGHT / 2 - self::HEAD_SIZE / 2;
+        imagecopy($canvas, $head, $head_posX, $head_posY, 0, 0
+                , self::HEAD_SIZE, self::HEAD_SIZE);
+
+        $box = imagettfbbox(self::PLAYERS_TEXT_SIZE, 0, self::FONT_FILE, $playername);
+        $text_width = abs($box[4] - $box[0]);
+        $text_height = abs($box[5] - $box[1]);
+
+        $text_color = imagecolorallocate($canvas, 255, 255, 255);
+        $text_posX = (self::PLAYER_WIDTH - $head_posX) / 2 - $text_width / 2 + self::PLAYER_PADDING;
+        $text_posY = $head_posY + self::HEAD_SIZE / 2 + $text_height / 2;
+        imagettftext($canvas, self::MOTD_TEXT_SIZE, 0
+                , $text_posX, $text_posY, $text_color, self::FONT_FILE, $playername);
+        return $canvas;
+    }
 }
