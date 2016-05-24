@@ -4,8 +4,8 @@ namespace MinecraftBanner;
 
 class MinecraftBanner {
 
-    const PLAYER_WIDTH = 400;
-    const PLAYER_HEIGHT = 100;
+    const PLAYER_WIDTH = 320;
+    const PLAYER_HEIGHT = 80;
 
     const PLAYER_PADDING = 10;
     const HEAD_SIZE = 64;
@@ -203,11 +203,10 @@ class MinecraftBanner {
 
         $box = imagettfbbox(self::PLAYERS_TEXT_SIZE, 0, self::FONT_FILE, $playername);
         $text_width = abs($box[4] - $box[0]);
-        $text_height = abs($box[5] - $box[1]);
 
         $text_color = imagecolorallocate($canvas, 255, 255, 255);
-        $text_posX = (self::PLAYER_WIDTH - $head_posX) / 2 - $text_width / 2 + self::PLAYER_PADDING;
-        $text_posY = $head_posY + self::HEAD_SIZE / 2 + $text_height / 2;
+        $text_posX = self::PLAYER_WIDTH - ($head_posX + self::HEAD_SIZE + self::PLAYER_PADDING * 4) - $text_width / 2;
+        $text_posY = $head_posY + self::HEAD_SIZE / 2 + self::PLAYERS_TEXT_SIZE / 2;
         imagettftext($canvas, self::MOTD_TEXT_SIZE, 0
                 , $text_posX, $text_posY, $text_color, self::FONT_FILE, $playername);
         return $canvas;

@@ -13,15 +13,17 @@ Displays:
     * Max players
     * Favicon if available
     * Colorized motd (message of the day)
+* Player banners
+Displays:
+    * Player Head image
+    * Displays player name
 * No branding
 * No Magic values
 * Free
 
 ## ToDo
 
-* Player banner
 * Custom background
-* Option show or hide the server address
 * Graph of player activity
 
 ## Installation
