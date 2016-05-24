@@ -24,6 +24,8 @@ Displays:
 ## ToDo
 
 * Custom background
+* Text style effects (bold, italic, underlined)
+* Automatic line wrapping
 * Graph of player activity
 
 ## Installation
