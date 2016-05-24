@@ -60,10 +60,10 @@ imagepng($banner);
 $favicon = imagecreatefrompng("server_favicon.png");
 $image = MinecraftBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -1, $favicon);
 ```
-![Minecraft banner](http://i.imgur.com/dN6Wsyx.png)
+![Minecraft banner](http://i.imgur.com/LtdXV6t.png)
 
 ```PHP
-//$favicon = imagecreatefrompng("server_favicon.png");
-//$image = MinecraftBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -1, $favicon);
+$favicon = imagecreatefrompng("server_favicon.png");
+$image = MinecraftBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -1, $favicon);
 ```
-![Minecraft banner](http://i.imgur.com/2yZGQck.png)
+![Minecraft banner](http://i.imgur.com/E5QpZ8K.png)

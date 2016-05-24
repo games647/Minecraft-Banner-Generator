@@ -1,5 +1,6 @@
 <?php
 
+//some dependencies here are optional. you may want to run composer install --dev
 require __DIR__ . '/../src/MinecraftBanner.php';
 
 use MinecraftBanner\MinecraftBanner;
@@ -40,6 +41,7 @@ $skin = MinecraftSkins\MinecraftSkins::combined($rawSkin, 1);
 $banner = MinecraftBanner::player($playername, $skin);
 
 //====SERVER BANNER (WITH DOWNLOADING)=====
+//Some random server
 //$address = "minecraft70.omgserv.com";
 //$banner = serverBanner($address);
 
