@@ -27,20 +27,20 @@ class MinecraftBanner {
         'c' => [255, 85, 85], //Red
         'd' => [255, 85, 85], //Light Purple
         'e' => [255, 255, 85], //Yellow
-        'f' => [255, 255, 255]  //White
+        'f' => [255, 255, 255],  //White
     ];
 
-    const WIDTH = 900;
-    const HEIGHT = 120;
-    const PADDING = 20;
+    const WIDTH = 650;
+    const HEIGHT = 80;
+    const PADDING = 3;
 
     const TEXTURE_SIZE = 32;
     const FAVICON_SIZE = 64;
 
     const FONT_FILE = __DIR__  . '/minecraft.ttf';
 
-    const MOTD_TEXT_SIZE = 20;
-    const PLAYERS_TEXT_SIZE = 16;
+    const MOTD_TEXT_SIZE = 12;
+    const PLAYERS_TEXT_SIZE = 14;
     const PING_WIDTH = 36;
     const PING_HEIGHT = 29;
 
@@ -84,8 +84,11 @@ class MinecraftBanner {
         imagecopy($canvas, $favicon, self::PADDING, $favicon_posY, 0, 0
                 , self::FAVICON_SIZE, self::FAVICON_SIZE);
 
+        $startX = self::PADDING + self::FAVICON_SIZE + self::PADDING;
+
         $components = explode(self::COLOR_CHAR, $motd);
-        $nextX = 100;
+        $nextX = $startX;
+        $nextY = 50;
         foreach ($components as $component) {
             if (empty($component)) {
                 continue;
@@ -97,22 +100,44 @@ class MinecraftBanner {
             //default to white
             $color_rgb = [255, 255, 255];
             $text = $component;
-            if (isset($colors[$color_code])) {
+            if (!empty($color_code)) {
                 //try to find the color rgb to the colro code
-                $color_rgb = $colors[$color_code];
+                if (isset($colors[$color_code])) {
+                    $color_rgb = $colors[$color_code];
+                }
+
                 $text = substr($component, 1);
             }
 
             $color = imagecolorallocate($canvas, $color_rgb[0], $color_rgb[1], $color_rgb[2]);
-//            var_dump($color);
-            imagettftext($canvas, self::MOTD_TEXT_SIZE, 0, $nextX, 60, $color, self::FONT_FILE, $text);
 
-            $box = imagettfbbox(self::MOTD_TEXT_SIZE, 0, self::FONT_FILE, $text);
-            $text_width = abs($box[4] - $box[0]);
-            $nextX += $text_width;
+            if (strpos($component, "\n") !== False) {
+                $lines = explode("\n", $text);
+                
+                imagettftext($canvas, self::MOTD_TEXT_SIZE, 0, $nextX, $nextY, $color, self::FONT_FILE, $lines[0]);
+
+                $box = imagettfbbox(self::MOTD_TEXT_SIZE, 0, self::FONT_FILE, $text);
+                $text_width = abs($box[4] - $box[0]);
+                $nextX = $startX;
+                $nextY += self::PADDING * 2 + self::MOTD_TEXT_SIZE;
+
+                imagettftext($canvas, self::MOTD_TEXT_SIZE, 0, $nextX, $nextY, $color, self::FONT_FILE, $lines[1]);
+
+                $box = imagettfbbox(self::MOTD_TEXT_SIZE, 0, self::FONT_FILE, $text);
+                $text_width = abs($box[4] - $box[0]);
+                $nextX += $text_width + self::PADDING;
+            } else {
+                imagettftext($canvas, self::MOTD_TEXT_SIZE, 0, $nextX, $nextY, $color, self::FONT_FILE, $text);
+
+                $box = imagettfbbox(self::MOTD_TEXT_SIZE, 0, self::FONT_FILE, $text);
+                $text_width = abs($box[4] - $box[0]);
+                $nextX += $text_width + self::PADDING;
+            }
         }
 
-        if ($ping <= self::PING_WELL) {
+        if ($ping < 0) {
+            $image = imagecreatefrompng(__DIR__ . '/img/ping/-1.png');
+        } else if ($ping > 0 && $ping <= self::PING_WELL) {
             $image = imagecreatefrompng(__DIR__ . '/img/ping/5.png');
         } else if ($ping <= self::PING_GOOD) {
             $image = imagecreatefrompng(__DIR__ . '/img/ping/4.png');
@@ -122,12 +147,10 @@ class MinecraftBanner {
             $image = imagecreatefrompng(__DIR__ . '/img/ping/2.png');
         } else if ($ping >= self::PING_WORST) {
             $image = imagecreatefrompng(__DIR__ . '/img/ping/1.png');
-        } else {
-            $image = imagecreatefrompng(__DIR__ . '/img/ping/-1.png');
         }
 
         $ping_posX = self::WIDTH - self::PING_WIDTH - self::PADDING;
-        imagecopy($canvas, $image, $ping_posX , $favicon_posY, 0, 0, self::PING_WIDTH, self::PING_HEIGHT);
+        imagecopy($canvas, $image, $ping_posX, $favicon_posY, 0, 0, self::PING_WIDTH, self::PING_HEIGHT);
 
         $white = imagecolorallocate($canvas, 255, 255, 255);
         $text = $players . ' / ' . $max_players;
