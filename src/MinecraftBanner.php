@@ -2,7 +2,8 @@
 
 namespace MinecraftBanner;
 
-class MinecraftBanner {
+class MinecraftBanner
+{
 
     const PLAYER_WIDTH = 400;
     const PLAYER_HEIGHT = 100;
@@ -37,7 +38,7 @@ class MinecraftBanner {
     const TEXTURE_SIZE = 32;
     const FAVICON_SIZE = 64;
 
-    const FONT_FILE = __DIR__  . '/minecraft.ttf';
+    const FONT_FILE = __DIR__ . '/minecraft.ttf';
 
     const MOTD_TEXT_SIZE = 20;
     const PLAYERS_TEXT_SIZE = 16;
@@ -52,15 +53,16 @@ class MinecraftBanner {
     /**
      *
      * @param string $address the server address
-     * @param string $motd message of the day whcih should be displayed
+     * @param string $motd message of the day which should be displayed
      * @param int $players not implemented
      * @param int $max_players not implemented
      * @param resource $favicon not implemented
+     * @param string $background Image Path or Standard Value
      * @param int $ping not implemented
-     *
      * @return resource the rendered banner
      */
-    public static function server($address, $motd = "§cOffline Server", $players = -1, $max_players = -1, $favicon = NULL, $ping = 0) {
+    public static function server($address, $motd = "§cOffline Server", $players = -1, $max_players = -1, $favicon = NULL, $background, $ping = 0)
+    {
         $canvas = imagecreatetruecolor(self::WIDTH, self::HEIGHT);
 
         if ($favicon == NULL) {
@@ -68,21 +70,103 @@ class MinecraftBanner {
         }
 
         //file the complete background
-        $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
-        for ($yPos = 0; $yPos <= (self::HEIGHT / self::TEXTURE_SIZE); $yPos++) {
-            for ($xPos = 0; $xPos <= (self::WIDTH / self::TEXTURE_SIZE); $xPos++) {
-                $startX = $xPos * self::TEXTURE_SIZE;
-                $startY = $yPos * self::TEXTURE_SIZE;
-                imagecopyresampled($canvas, $background, $startX, $startY, 0, 0
+        switch ($background) {
+            case "Standard-Background":
+                $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
+                break;
+            case "Standard-Background0":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/0.png');
+                break;
+            case "Standard-Background1":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/1.png');
+                break;
+            case "Standard-Background2":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/2.png');
+                break;
+            case "Standard-Background3":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/3.png');
+                break;
+            case "Standard-Background4":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/4.png');
+                break;
+            case "Standard-Background5":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/5.png');
+                break;
+            case "Standard-Background6":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/6.png');
+                break;
+            case "Standard-Background7":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/7.png');
+                break;
+            case "Standard-Background8":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/8.png');
+                break;
+            case "Standard-Background9":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/9.png');
+                break;
+            case "Standard-Background10":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/10.png');
+                break;
+
+            default:
+                if (file_exists($background)) {
+                    $info = pathinfo($background);
+                    $ext = $info['extension'];
+
+                    switch ($ext) {
+                        case "png":
+                            $background = imagecreatefrompng($background);
+                            break;
+                        case "jpg":
+                            $background = imagecreatefromjpeg($background);
+                            break;
+                        case "gif":
+                            $background = imagecreatefromgif($background);
+                            break;
+                        default:
+                            $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
+                    }
+                } elseif (stristr($background, "http://") || stristr($background, "https://")) {
+                    $file_info = pathinfo($background);
+                    $extension = $file_info['extension'];
+
+                    switch ($extension) {
+                        case "png":
+                            $background = imagecreatefrompng($background);
+                            break;
+                        case "jpg":
+                            $background = imagecreatefromjpeg($background);
+                            break;
+                        case "gif":
+                            $background = imagecreatefromgif($background);
+                            break;
+                        default:
+                            $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
+                    }
+                } else {
+                    $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
+                }
+        }
+
+
+        if (imagesx($background) == self::TEXTURE_SIZE) {
+            for ($yPos = 0; $yPos <= (self::HEIGHT / self::TEXTURE_SIZE); $yPos++) {
+                for ($xPos = 0; $xPos <= (self::WIDTH / self::TEXTURE_SIZE); $xPos++) {
+                    $startX = $xPos * self::TEXTURE_SIZE;
+                    $startY = $yPos * self::TEXTURE_SIZE;
+                    imagecopyresampled($canvas, $background, $startX, $startY, 0, 0
                         , self::TEXTURE_SIZE, self::TEXTURE_SIZE
                         , self::TEXTURE_SIZE, self::TEXTURE_SIZE);
+                }
             }
+        } else {
+            imagecopyresampled($canvas, $background, 0, 0, 0, 0, self::WIDTH, self::HEIGHT, self::WIDTH, self::HEIGHT);
         }
 
         //center the iamge in y-direction and add padding to the left side
         $favicon_posY = (self::HEIGHT - self::FAVICON_SIZE) / 2;
         imagecopy($canvas, $favicon, self::PADDING, $favicon_posY, 0, 0
-                , self::FAVICON_SIZE, self::FAVICON_SIZE);
+            , self::FAVICON_SIZE, self::FAVICON_SIZE);
 
         $components = explode(self::COLOR_CHAR, $motd);
         $nextX = 100;
@@ -127,7 +211,7 @@ class MinecraftBanner {
         }
 
         $ping_posX = self::WIDTH - self::PING_WIDTH - self::PADDING;
-        imagecopy($canvas, $image, $ping_posX , $favicon_posY, 0, 0, self::PING_WIDTH, self::PING_HEIGHT);
+        imagecopy($canvas, $image, $ping_posX, $favicon_posY, 0, 0, self::PING_WIDTH, self::PING_HEIGHT);
 
         $white = imagecolorallocate($canvas, 255, 255, 255);
         $text = $players . ' / ' . $max_players;
@@ -147,21 +231,105 @@ class MinecraftBanner {
      * @param string $playername Minecraft player name
      * @param resource $head the rendered skin head
      *
+     * @param string $background Image Path or Standard Value
      * @return resource the generated banner
      */
-    public static function player($playername, $head = NULL) {
+    public static function player($playername, $head = NULL, $background)
+    {
         $canvas = imagecreatetruecolor(self::PLAYER_WIDTH, self::PLAYER_HEIGHT);
 
         //file the complete background
-        $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
-        for ($yPos = 0; $yPos <= (self::PLAYER_HEIGHT / self::TEXTURE_SIZE); $yPos++) {
-            for ($xPos = 0; $xPos <= (self::PLAYER_WIDTH / self::TEXTURE_SIZE); $xPos++) {
-                $startX = $xPos * self::TEXTURE_SIZE;
-                $startY = $yPos * self::TEXTURE_SIZE;
-                imagecopyresampled($canvas, $background, $startX, $startY, 0, 0
+        switch ($background) {
+            case "Standard-Background":
+                $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
+                break;
+            case "Standard-Background0":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/0.png');
+                break;
+            case "Standard-Background1":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/1.png');
+                break;
+            case "Standard-Background2":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/2.png');
+                break;
+            case "Standard-Background3":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/3.png');
+                break;
+            case "Standard-Background4":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/4.png');
+                break;
+            case "Standard-Background5":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/5.png');
+                break;
+            case "Standard-Background6":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/6.png');
+                break;
+            case "Standard-Background7":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/7.png');
+                break;
+            case "Standard-Background8":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/8.png');
+                break;
+            case "Standard-Background9":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/9.png');
+                break;
+            case "Standard-Background10":
+                $background = imagecreatefrompng(__DIR__ . '/img/backgrounds/10.png');
+                break;
+
+            default:
+                if (file_exists($background)) {
+                    $info = pathinfo($background);
+                    $ext = $info['extension'];
+
+                    switch ($ext) {
+                        case "png":
+                            $background = imagecreatefrompng($background);
+                            break;
+                        case "jpg":
+                            $background = imagecreatefromjpeg($background);
+                            break;
+                        case "gif":
+                            $background = imagecreatefromgif($background);
+                            break;
+                        default:
+                            $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
+                    }
+                } elseif (stristr($background, "http://") || stristr($background, "https://")) {
+                    $file_info = pathinfo($background);
+                    $extension = $file_info['extension'];
+
+                    switch ($extension) {
+                        case "png":
+                            $background = imagecreatefrompng($background);
+                            break;
+                        case "jpg":
+                            $background = imagecreatefromjpeg($background);
+                            break;
+                        case "gif":
+                            $background = imagecreatefromgif($background);
+                            break;
+                        default:
+                            $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
+                    }
+                } else {
+                    $background = imagecreatefrompng(__DIR__ . '/img/texture.png');
+                }
+        }
+
+        //file the complete background
+        if (imagesx($background) == self::TEXTURE_SIZE) {
+            for ($yPos = 0; $yPos <= (self::PLAYER_HEIGHT / self::TEXTURE_SIZE); $yPos++) {
+                for ($xPos = 0; $xPos <= (self::PLAYER_WIDTH / self::TEXTURE_SIZE); $xPos++) {
+                    $startX = $xPos * self::TEXTURE_SIZE;
+                    $startY = $yPos * self::TEXTURE_SIZE;
+                    imagecopyresampled($canvas, $background, $startX, $startY, 0, 0
                         , self::TEXTURE_SIZE, self::TEXTURE_SIZE
                         , self::TEXTURE_SIZE, self::TEXTURE_SIZE);
+                }
             }
+        } else {
+            imagecopyresampled($canvas, $background, 0, 0, 0, 0, self::WIDTH, self::HEIGHT, self::WIDTH, self::HEIGHT);
         }
 
         if ($head == NULL) {
@@ -171,7 +339,7 @@ class MinecraftBanner {
         $head_posX = self::PLAYER_PADDING;
         $head_posY = self::PLAYER_HEIGHT / 2 - self::HEAD_SIZE / 2;
         imagecopy($canvas, $head, $head_posX, $head_posY, 0, 0
-                , self::HEAD_SIZE, self::HEAD_SIZE);
+            , self::HEAD_SIZE, self::HEAD_SIZE);
 
         $box = imagettfbbox(self::PLAYERS_TEXT_SIZE, 0, self::FONT_FILE, $playername);
         $text_width = abs($box[4] - $box[0]);
@@ -181,7 +349,9 @@ class MinecraftBanner {
         $text_posX = (self::PLAYER_WIDTH - $head_posX) / 2 - $text_width / 2 + self::PLAYER_PADDING;
         $text_posY = $head_posY + self::HEAD_SIZE / 2 + $text_height / 2;
         imagettftext($canvas, self::MOTD_TEXT_SIZE, 0
-                , $text_posX, $text_posY, $text_color, self::FONT_FILE, $playername);
+            , $text_posX, $text_posY, $text_color, self::FONT_FILE, $playername);
         return $canvas;
     }
+
+
 }
