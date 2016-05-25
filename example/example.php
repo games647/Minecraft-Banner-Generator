@@ -1,9 +1,12 @@
 <?php
 
 //some dependencies here are optional. you may want to run composer install --dev
-require __DIR__ . '/../src/MinecraftBanner.php';
+require __DIR__ . '/../src/ServerBanner.php';
+require __DIR__ . '/../src/PlayerBanner.php';
 
-use MinecraftBanner\MinecraftBanner;
+use MinecraftBanner\PlayerBanner;
+use MinecraftBanner\ServerBanner;
+use \MinecraftBanner\MinecraftBanner;
 use MinecraftServerStatus\MinecraftServerStatus;
 
 const SKIN_URL = 'http://s3.amazonaws.com/MinecraftSkins/';
@@ -13,32 +16,37 @@ header('Content-type: image/png');
 
 //====PLAYER BANNER =====
 //$head = imagecreatefrompng("notch_head.png");
-//$banner = MinecraftBanner::player("Notch", $head);
+//$banner = PlayerBanner::player("Notch", $head);
 
 //====SERVER BANNER =====
-//$favicon = imagecreatefrompng("server_favicon.png");
-//$banner = MinecraftBanner::server("example.minecraft.com", "§cHello World", 100000, 10000, $favicon, -1);
+$favicon = imagecreatefrompng("server_favicon.png");
+$banner = ServerBanner::server("example.minecraft.com", "§cHello World\ntest", 100000, 10000, $favicon);
 
 //====PLAYER BANNER (WITH DOWNLOADING)=====
 //$playername = "Notch";
 //$rawSkin = getRawSkin($playername);
 //require_once __DIR__ . '/../vendor/games647/minecraft-skin-renderer/src/MinecraftSkins.php';
-//$head = MinecraftSkins\MinecraftSkins::head($rawSkin);
-//$banner = MinecraftBanner::player($playername, $head);
+//$head = MinecraftSkins\MinecraftSkins::head($rawSkin, 8);
+//$banner = PlayerBanner::player($playername, $head);
 
 //====PLAYER BANNER combined (WITH DOWNLOADING)=====
 //$playername = "Notch";
 //$rawSkin = getRawSkin($playername);
 //require_once __DIR__ . '/../vendor/games647/minecraft-skin-renderer/src/MinecraftSkins.php';
 //$skin = MinecraftSkins\MinecraftSkins::combined($rawSkin, 1);
-//$banner = MinecraftBanner::player($playername, $skin);
+//$banner = PlayerBanner::player($playername, $skin);
 
 //====PLAYER BANNER SKIN AS AVATAR (WITH DOWNLOADING)=====
-$playername = "Notch";
-$rawSkin = getRawSkin($playername);
-require_once __DIR__ . '/../vendor/games647/minecraft-skin-renderer/src/MinecraftSkins.php';
-$skin = MinecraftSkins\MinecraftSkins::combined($rawSkin, 1);
-$banner = MinecraftBanner::player($playername, $skin);
+//$playername = "Notch";
+//$rawSkin = getRawSkin($playername);
+//require_once __DIR__ . '/../vendor/games647/minecraft-skin-renderer/src/MinecraftSkins.php';
+//$skin = MinecraftSkins\MinecraftSkins::combined($rawSkin, 1);
+//$banner = PlayerBanner::player($playername, $skin);
+
+//====PLAYER BANNER SKIN AS AVATAR (WITH DOWNLOADING) USIGN VISAGE 3D Rendering s=====
+//$playername = "Notch";
+//$avatar = PlayerBanner('https://visage.surgeplay.com/full/128/069a79f444e94726a5befca90e38aaf5');
+//$banner = PlayerBanner::player($playername, $avatar);
 
 //====SERVER BANNER (WITH DOWNLOADING)=====
 //Some random server
@@ -60,7 +68,7 @@ function serverBanner($address, $port = 25565) {
     //usage of optional dependency: https://github.com/FunnyItsElmo/PHP-Minecraft-Server-Status-Query
     $response = MinecraftServerStatus::query($address, $port);
     if (!$response) {
-        return MinecraftBanner::server($address);
+        return ServerBanner::server($address);
     } else {
         $ping = $response['ping'];
         $players = $response['players'];
@@ -69,7 +77,7 @@ function serverBanner($address, $port = 25565) {
 
         $favicon = extractImage($response['favicon']);
 
-        return MinecraftBanner::server($address, $motd, $players, $max_players, $favicon, $ping);
+        return ServerBanner::server($address, $motd, $players, $max_players, $favicon, $ping);
     }
 }
 
