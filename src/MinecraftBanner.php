@@ -31,15 +31,15 @@ class MinecraftBanner
     const DEFAULT_BACKGROUND = NULL;
     const CLOUDS_BACKGROUND = "0";
     const LILLY_PADS_BACKGROUND = "1";
-//    const CLOUDS_BACKGROUND = "2";
+    const HILLS_BACKGROUND = "2";
     const WATERFALL_BACKGROUND = "3";
-//    const CLOUDS_BACKGROUND = "4";
-//    const CLOUDS_BACKGROUND = "5";
-//    const CLOUDS_BACKGROUND = "6";
-//    const CLOUDS_BACKGROUND = "7";
-//    const CLOUDS_BACKGROUND = "S8";
-//    const CLOUDS_BACKGROUND = "9";
-//    const CLOUDS_BACKGROUND = "10";
+    const CANYON_BACKGROUND = "4";
+    const GRASSLAND_BACKGROUND = "5";
+    const GRASSLAND_CANYON_BACKGROUND = "6";
+    const SWAMP_BACKGROUND = "7";
+    const LAKE_BACKGROUND = "8";
+    const SWAMP2_BACKGROUND = "9";
+    const LILLY_PADS_SWAMP_BACKGROUND = "10";
 
     public static function getBackgroundCanvas($width, $height, $background)
     {
