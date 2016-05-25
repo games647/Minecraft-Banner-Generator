@@ -13,28 +13,20 @@ Displays:
     * Max players
     * Favicon if available
     * Colorized motd (message of the day)
-<<<<<<< HEAD
     * Custom background
-=======
 * Player banners
 Displays:
     * Player Head image
     * Displays player name
->>>>>>> c037422ed48cc03ad8bacaeadbfa6b5a9f7bb653
 * No branding
 * No Magic values
 * Free
 
 ## ToDo
-
-<<<<<<< HEAD
 * Player banner
 * Option show or hide the server address
-=======
-* Custom background
 * Text style effects (bold, italic, underlined)
 * Automatic line wrapping
->>>>>>> c037422ed48cc03ad8bacaeadbfa6b5a9f7bb653
 * Graph of player activity
 
 ## Installation
@@ -94,7 +86,7 @@ $image = MinecraftBanner::server("example.minecraft.com", "§aHallo §cWelt", -1
 ![Background 10](http://i.imgur.com/Rad3CwW.png)
 
 ### Scaling
-![Scaling](http://i.imgur.com/nSurXm9.png)
+![Scaling](http://i.imgur.com/pxaM0t1.png)
 
 ## Examples
 
@@ -125,14 +117,7 @@ $image = MinecraftBanner::server("example.minecraft.com", "§aHallo §cWelt", -1
 ---
 
 ```PHP
-<<<<<<< HEAD
 $favicon = imagecreatefrompng("notch_head.png");
 $image = MinecraftBanner::player("Notch", $favicon, "Standard-Background1");
 ```
 ![Minecraft banner](http://i.imgur.com/sU5tPc8.png)
-=======
-$favicon = imagecreatefrompng("server_favicon.png");
-$image = MinecraftBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -1, $favicon);
-```
-![Minecraft banner](http://i.imgur.com/E5QpZ8K.png)
->>>>>>> c037422ed48cc03ad8bacaeadbfa6b5a9f7bb653
