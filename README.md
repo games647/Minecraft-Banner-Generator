@@ -62,28 +62,28 @@ $image = ServerBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -
 ```
 
 
-#### Background 0
-![Background 0](http://i.imgur.com/jMij4xr.png)
-#### Background 1
-![Background 1](http://i.imgur.com/6GqUw42.png)
-#### Background 2
-![Background 2](http://i.imgur.com/zRwAOyp.png)
-#### Background 3
-![Background 3](http://i.imgur.com/HFx6V3q.png)
-#### Background 4
-![Background 4](http://i.imgur.com/LHxdbma.png)
-#### Background 5
-![Background 5](http://i.imgur.com/oHktIme.png)
-#### Background 6
-![Background 6](http://i.imgur.com/1wmqIQN.png)
-#### Background 7
-![Background 7](http://i.imgur.com/xdDXDkZ.png)
-#### Background 8
-![Background 8](http://i.imgur.com/eEZzdVm.png)
-#### Background 9
-![Background 9](http://i.imgur.com/i90Qitm.png)
-#### Background 10
-![Background 10](http://i.imgur.com/Rad3CwW.png)
+#### CLOUDS_BACKGROUND
+![CLOUDS_BACKGROUND](http://i.imgur.com/jMij4xr.png)
+#### LILLY_PADS_BACKGROUND
+![LILLY_PADS_BACKGROUND](http://i.imgur.com/6GqUw42.png)
+#### HILLS_BACKGROUND
+![HILLS_BACKGROUND](http://i.imgur.com/zRwAOyp.png)
+#### WATERFALL_BACKGROUND
+![WATERFALL_BACKGROUND](http://i.imgur.com/HFx6V3q.png)
+#### CANYON_BACKGROUND
+![CANYON_BACKGROUND](http://i.imgur.com/LHxdbma.png)
+#### GRASSLAND_BACKGROUND
+![GRASSLAND_BACKGROUND](http://i.imgur.com/oHktIme.png)
+#### GRASSLAND_CANYON_BACKGROUND
+![GRASSLAND_CANYON_BACKGROUND](http://i.imgur.com/1wmqIQN.png)
+#### SWAMP_BACKGROUND
+![SWAMP_BACKGROUND](http://i.imgur.com/xdDXDkZ.png)
+#### LAKE_BACKGROUND
+![LAKE_BACKGROUND](http://i.imgur.com/eEZzdVm.png)
+#### SWAMP2_BACKGROUND
+![SWAMP2_BACKGROUND](http://i.imgur.com/i90Qitm.png)
+#### LILLY_PADS_SWAMP_BACKGROUND
+![LILLY_PADS_SWAMP_BACKGROUND](http://i.imgur.com/Rad3CwW.png)
 
 ### Scaling
 ![Scaling](http://i.imgur.com/pxaM0t1.png)
