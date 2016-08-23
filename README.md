@@ -58,7 +58,7 @@ imagepng($banner);
 You can use 11 build in Backgrounds or Images as files or URLs
 ```PHP
 $favicon = imagecreatefrompng("server_favicon.png");
-$image = ServerBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -1, $favicon, "Standard-Background[0-10]");
+$image = ServerBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -1, $favicon, "MinecraftBanner::[DEFAULT_BACKGROUND, CLOUDS_BACKGROUND, LILLY_PADS_BACKGROUND, HILLS_BACKGROUND, WATERFALL_BACKGROUND, CANYON_BACKGROUND, GRASSLAND_BACKGROUND, GRASSLAND_CANYON_BACKGROUND, SWAMP_BACKGROUND, LAKE_BACKGROUND, SWAMP2_BACKGROUND, LILLY_PADS_SWAMP_BACKGROUND]");
 ```
 
 
@@ -109,7 +109,7 @@ $image = PlayerBanner::player("Notch", $favicon);
 
 ```PHP
 $favicon = imagecreatefrompng("server_favicon.png");
-$image = ServerBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -1, $favicon, MinecraftBanner::CLOUDS_BACKGROUND);
+$image = ServerBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -1, $favicon, MinecraftBanner::LILLY_PADS_BACKGROUND);
 ```
 
 ![Minecraft banner](http://i.imgur.com/Hk1Um86.png)
@@ -118,6 +118,6 @@ $image = ServerBanner::server("example.minecraft.com", "§aHallo §cWelt", -1, -
 
 ```PHP
 $favicon = imagecreatefrompng("notch_head.png");
-$image = PlayerBanner::player("Notch", $favicon, MinecraftBanner::CLOUDS_BACKGROUND);
+$image = PlayerBanner::player("Notch", $favicon, MinecraftBanner::LILLY_PADS_BACKGROUND);
 ```
 ![Minecraft banner](http://i.imgur.com/sU5tPc8.png)
