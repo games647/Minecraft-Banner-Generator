@@ -35,7 +35,7 @@ class ServerBanner
      * @return resource the rendered banner
      */
     public static function server($address, $motd = "§cOffline Server", $players = -1, $max_players = -1,
-            $favicon = NULL, $background = NULL, $ping = 0)
+            $favicon = NULL, $background = NULL, $ping = self::PING_WELL)
     {
         $canvas = MinecraftBanner::getBackgroundCanvas(self::WIDTH, self::HEIGHT, $background);
         if ($favicon == NULL) {
