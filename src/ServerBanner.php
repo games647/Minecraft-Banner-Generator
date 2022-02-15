@@ -71,9 +71,8 @@ class ServerBanner
                 if (isset($colors[$color_code])) {
                     $color_rgb = $colors[$color_code];
                     $last_color = $color_rgb;
+                    $text = substr($component, 1);
                 }
-
-                $text = substr($component, 1);
             }
 
             $color = imagecolorallocate($canvas, $last_color[0], $last_color[1], $last_color[2]);
